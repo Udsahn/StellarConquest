@@ -32,8 +32,17 @@ using Microsoft.Xna.Framework.Input;
 
 using StellarConquest.Graphics;
 
+using Udsahn.Graphics;
+using Udsahn.Graphics.FontLoader;
+
 namespace StellarConquest
 {
+    public static class ColorScheme
+    {
+        public static Color NormalText = new Color(170, 165, 184);
+        public static Color NormalBackground = new Color(28, 0, 44);
+    }
+
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
@@ -41,6 +50,22 @@ namespace StellarConquest
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+
+        // Timer
+        int highlightCountdown = 600;
+        int lowlightCountdown = 100;
+
+        int timer;
+
+        // Title Color
+        Color titleColor;
+
+        // Font loader
+        Font boldFont;
+        Font microFont;
+        Font macroFont; // Not created yet.
+
+        Texture2D fontImage;
 
         public Main()
         {
@@ -71,6 +96,9 @@ namespace StellarConquest
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            fontImage = Content.Load<Texture2D>("BoldTypeface_2.png");
+            boldFont = new Font("Custom Bold Font", fontImage, new Vector2(11, 20));
+            microFont = new Font("Custom micro Font", Content.Load<Texture2D>("MicroFont.png"), new Vector2(6, 10), true);
         }
 
         /// <summary>
@@ -94,6 +122,9 @@ namespace StellarConquest
 
             // TODO: Add your update logic here
 
+            // Updates the timer for the title text highlighting.
+            UpdateLogic(gameTime);
+
             base.Update(gameTime);
         }
 
@@ -103,11 +134,44 @@ namespace StellarConquest
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(ColorScheme.WindowBackground);
+            GraphicsDevice.Clear(StellarConquest.Graphics.ColorScheme.WindowBackground);
 
             // TODO: Add your drawing code here
+            spriteBatch.Begin();
+
+            // Stock Fontsheet Render not using the custom parser.
+            spriteBatch.Draw(fontImage, new Vector2(10, 30), Color.Red);
+
+            // Font Demo Render
+            microFont.Demo(new Vector2(10, 30 + boldFont.TypeSize.Height), spriteBatch);
+
+            // Version info rendering
+            if (timer > highlightCountdown)
+                titleColor = Color.White;
+            else
+                titleColor = Color.Red;
+
+            microFont.DrawText("| || Font Loader Version 0.001 Alpha || | ---- DEMO SAMPLE ----", new Vector2(5, 2), spriteBatch, titleColor);
+
+            // Actual demo of font rendering.
+            boldFont.DrawText("THIS IS AN ACTUAL TEST OF FONT RENDERING", new Vector2(10, 120), spriteBatch);
+            boldFont.DrawText("IT USES THE CUSTOM FONT I MADE AND A CUSTOM PARSER AND RENDERER", new Vector2(10, 140), spriteBatch);
+
+            // Font rendering of the specific font names given.
+            boldFont.DrawText(boldFont.Name.ToUpper(), new Vector2(10, 200), spriteBatch);
+            microFont.DrawText(microFont.Name.ToUpper(), new Vector2(10, 200 + boldFont.TypeSize.Height), spriteBatch);
+
+            spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        protected void UpdateLogic(GameTime gameTime)
+        {
+            timer += gameTime.ElapsedGameTime.Milliseconds;
+
+            if (timer > highlightCountdown + lowlightCountdown)
+                timer = 0;
         }
     }
 }
