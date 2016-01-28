@@ -26,6 +26,65 @@ SOFTWARE.
 */
 #endregion
 
+//#####################################################
+//###                                               ###
+//###     MonoGame Font Loader Ver. 0.001 Alpha     ###
+//###                                               ###
+//#####################################################
+#region Info
+
+//#####################################################
+//###
+//###   ~~~             ABOUT               ~~~
+//###
+//### What follows is sample code for a font loader
+//### using any image MonoGame can import as a Texture2D.
+//###
+//### The font is very simplistic and includes no kerning.
+//###
+//### NOTE: This is a sample, and the published version
+//###       be a class library.
+//###
+//###   ~~~             USAGE               ~~~
+//###
+//### Upon instantiation of the fontloader, a Texture2D
+//### must be sent as a parameter to load as well as a
+//### Vector2 for the size of each character as well as
+//### another Vector2 for any offset between characters.
+//###
+//### An overload is included to specify the origin.
+//### 
+//### At default, the origin is set at 0, 0.
+//###
+//### By default the Fontloader imports in the following
+//### manner by each row:
+//### 
+//### Row #     |   Type
+//### 1.        |   Capital Letters
+//### 2.        |   Lowercase Letters
+//### 3.        |   Numbers
+//### 4.        |   Punctuation
+//### 5.        |   Special Characters (Empty space, Filled space/'Unknown' and underscore)
+//###
+//### Future versions will include .XML implimentation
+//### for more acurate placement and letters represented.
+//###
+//#####################################################
+
+//#####################################################
+//###
+//### Current progress          |       Percentage
+//###
+//###   Font Loading            |           100%
+//###   Font Rendering          |           80%
+//###   Font XML Info           |           0%
+//###
+//###   Letters Supported       |       Only Capitals
+//###
+//#####################################################
+
+#endregion
+
 using System;
 using System.Collections.Generic;
 using System.Linq;

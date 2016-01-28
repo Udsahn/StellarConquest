@@ -65,6 +65,9 @@ namespace StellarConquest
         Font microFont;
         Font macroFont; // Not created yet.
 
+        // Font Manager (Multiple fonts in one object)
+        FontManager fm;
+
         Texture2D fontImage;
 
         public Main()
@@ -94,11 +97,19 @@ namespace StellarConquest
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            fm = new FontManager();
 
             // TODO: use this.Content to load your game content here
             fontImage = Content.Load<Texture2D>("BoldTypeface_2.png");
             boldFont = new Font("Custom Bold Font", fontImage, new Vector2(11, 20));
             microFont = new Font("Custom micro Font", Content.Load<Texture2D>("MicroFont.png"), new Vector2(6, 10), true);
+
+            // Adds a new font to the Font Manager.
+            fm.AddFontsheet("MicroFont", Content.Load<Texture2D>("MicroFont.png"), 6, 10, true);
+
+            // Adds a new font to the Font Manager that
+            // was already instantiated.
+            fm.AddFontsheet(boldFont);
         }
 
         /// <summary>
@@ -160,6 +171,14 @@ namespace StellarConquest
             // Font rendering of the specific font names given.
             boldFont.DrawText(boldFont.Name.ToUpper(), new Vector2(10, 200), spriteBatch);
             microFont.DrawText(microFont.Name.ToUpper(), new Vector2(10, 200 + boldFont.TypeSize.Height), spriteBatch);
+
+            // Uses the Font Manager to print text to the screen.
+            fm.DrawText("MicroFont", "This is a test of the Font Manager using stringed tags.", new Vector2(10, 250), spriteBatch, Color.Yellow);
+            fm.DrawText(1, "This is a test of the Font Manager using an index.".ToUpper(), new Vector2(10, 265), spriteBatch, Color.LightYellow);
+
+            // Font Manager helper methods to aid in font discovery.
+            fm.FindIndex("Nothere");
+            fm.FindTag(10);
 
             spriteBatch.End();
 
