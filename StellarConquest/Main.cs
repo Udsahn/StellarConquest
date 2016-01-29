@@ -116,7 +116,9 @@ namespace StellarConquest
             kl.AddKeyframe(1000, Color.Red);
             kl.AddKeyframe(500, Color.Green);
             kl.AddKeyframe(250, Color.Blue);
-            kl.Cycle = KeyframeCycle.Once;
+            kl.AddKeyframe(2750, Color.Yellow);
+            kl.AddKeyframe(5000, Color.White);
+            kl.Cycle = KeyframeCycle.Repeat;
             kl.Start();
 
             // Adds a new font to the Font Manager that
@@ -198,7 +200,7 @@ namespace StellarConquest
             // Draw information from the KeyframeList.
             curentFrame = kl.Keyframe;
 
-            fm.DrawText(0, string.Concat("Frame Index, ", kl.KeyframeIndex, ", Curent time, ", kl.Elapsed, "ms, State, ", kl.State.ToString(), ", Cycle Option, ", kl.Cycle.ToString(), " || Delay, ", curentFrame.Delay, ", Color, ", curentFrame.Tint.ToString()),
+            fm.DrawText(0, string.Concat("Frame Index: ", kl.KeyframeIndex, ", Curent time: ", kl.Elapsed, "ms, State: ", kl.State.ToString(), ", Cycle Option: ", kl.Cycle.ToString(), " || Delay -- ", curentFrame.Delay, ", Color ~~ ", curentFrame.Tint.ToString()),
                         new Vector2(10, 300), spriteBatch, curentFrame.Tint);
 
             spriteBatch.End();

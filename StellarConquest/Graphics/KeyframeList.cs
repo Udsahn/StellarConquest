@@ -28,7 +28,7 @@ SOFTWARE.
 
 //#####################################################
 //###                                               ###
-//###     Keyframe List Ver. 0.001 Alpha            ###
+//###     Keyframe List Ver. 0.004 Alpha            ###
 //###                                               ###
 //#####################################################
 #region Info
@@ -58,8 +58,8 @@ SOFTWARE.
 //###   Current progress        |       Percentage
 //###
 //###   Keyframe List           |       100%
-//###   Object State            |       0%
-//###   Cyclic options          |       0%
+//###   Object State            |       100%
+//###   Cyclic options          |       100%
 //###
 //#####################################################
 
@@ -75,62 +75,117 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace StellarConquest.Graphics
 {
+    enum KeyframeState { Alive, Frozen };
+    enum KeyframeCycle { Repeat, Once, Reverse };
+
     class KeyframeList
     {
         protected List<Keyframe> keyframes;
-        protected Keyframe _curentFrame;
 
-        // If animating, then true. If frozen, false.
-        public bool Alive { get; set; }
         public int Elapsed { get; protected set; }
+        private int _lastKeyframeIndex;
+        private int _curentKeyframeIndex;
 
-        public Keyframe Frame { get { return keyframes[FrameIndex]; }  }
+        public KeyframeState State { get; set; }
+        public KeyframeCycle Cycle { get; set; }
 
-        public int FrameIndex { get; protected set; }
+        public Keyframe Keyframe { get { return keyframes[KeyframeIndex]; }  }
+
+        public int KeyframeIndex { get { return _curentKeyframeIndex; } protected set { _curentKeyframeIndex = value; } }
+        public int LastKeyframeIndex { get { return _lastKeyframeIndex; } protected set { _lastKeyframeIndex = value; } }
 
         public KeyframeList()
         {
             keyframes = new List<Keyframe>();
-            Alive = false;
+            State = KeyframeState.Frozen;
         }
 
         //########### UPDATE METHODS #############
 
         public void Update(GameTime time)
         {
-            if (Alive)
+            if (State == KeyframeState.Alive)
             {
                 Elapsed += time.ElapsedGameTime.Milliseconds;
 
-                if (Elapsed >= keyframes[FrameIndex].Delay)
-                    this.Next();
+                if (Elapsed >= keyframes[KeyframeIndex].Delay)
+                {
+                    if (Cycle != KeyframeCycle.Reverse)
+                        this.Next();
+                    else
+                        this.Previous();
+                }
             }
         }
 
         public void Next()
         {
-            if (FrameIndex >= keyframes.Count - 1)
-                FrameIndex = 0;
+            if (KeyframeIndex >= keyframes.Count - 1)
+            {
+                if (Cycle == KeyframeCycle.Once)
+                {
+                    Stop();
+                    return;
+                }
+
+                LastKeyframeIndex = KeyframeIndex;
+                KeyframeIndex = 0;
+            }
             else
-                FrameIndex++;
+            {
+                LastKeyframeIndex = KeyframeIndex;
+                KeyframeIndex++;
+            }
 
             Elapsed = 0;
         }
 
         public void Previous()
         {
-            if (FrameIndex <= 0)
-                FrameIndex = 0;
-            else
-                FrameIndex--;
+            if (Cycle != KeyframeCycle.Reverse)
+            {
+                if (KeyframeIndex <= 0)
+                {
+                    LastKeyframeIndex = KeyframeIndex;
+                    KeyframeIndex = 0;
+                }
+                else
+                {
+                    LastKeyframeIndex = KeyframeIndex;
+                    KeyframeIndex--;
+                }
+            }
+            else // Reverse the keyframes.
+            {
+                if (KeyframeIndex <= 0)
+                {
+                    LastKeyframeIndex = KeyframeIndex;
+                    KeyframeIndex = keyframes.Count - 1;
+                }
+                else
+                {
+                    LastKeyframeIndex = KeyframeIndex;
+                    KeyframeIndex--;
+                }
+            }
 
             Elapsed = 0;
+        }
+
+        public void Start()
+        {
+            State = KeyframeState.Alive;
+        }
+
+        public void Stop()
+        {
+            State = KeyframeState.Frozen;
         }
 
         public void Reset()
         {
                 Elapsed = 0;
-                FrameIndex = 0;
+                KeyframeIndex = 0;
         }
 
         #region AddMethods

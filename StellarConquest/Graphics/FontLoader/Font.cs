@@ -28,7 +28,7 @@ SOFTWARE.
 
 //#####################################################
 //###                                               ###
-//###     MonoGame Font Loader Ver. 0.001 Alpha     ###
+//###     MonoGame Font Loader Ver. 0.005 Alpha     ###
 //###                                               ###
 //#####################################################
 #region Info
@@ -76,7 +76,7 @@ SOFTWARE.
 //### Current progress          |       Percentage
 //###
 //###   Font Loading            |           100%
-//###   Font Rendering          |           80%
+//###   Font Rendering          |           100%
 //###   Font XML Info           |           0%
 //###
 //###   Letters Supported       |       Only Capitals
@@ -256,12 +256,23 @@ namespace Udsahn.Graphics.FontLoader
                 letters.Add('?', new FontCharacter('?', 2 * typeSize.Width, 3 * typeSize.Height, typeSize.Width, typeSize.Height));
                 letters.Add(',', new FontCharacter(',', 3 * typeSize.Width, 3 * typeSize.Height, typeSize.Width, typeSize.Height));
                 letters.Add(';', new FontCharacter(';', 4 * typeSize.Width, 3 * typeSize.Height, typeSize.Width, typeSize.Height));
+                letters.Add(':', new FontCharacter(':', 5 * typeSize.Width, 3 * typeSize.Height, typeSize.Width, typeSize.Height));
+                letters.Add('<', new FontCharacter('<', 6 * typeSize.Width, 3 * typeSize.Height, typeSize.Width, typeSize.Height));
+                letters.Add('>', new FontCharacter('>', 7 * typeSize.Width, 3 * typeSize.Height, typeSize.Width, typeSize.Height));
+                letters.Add('-', new FontCharacter('-', 8 * typeSize.Width, 3 * typeSize.Height, typeSize.Width, typeSize.Height));
+                letters.Add('~', new FontCharacter('~', 9 * typeSize.Width, 3 * typeSize.Height, typeSize.Width, typeSize.Height));
+                letters.Add('(', new FontCharacter('(', 10 * typeSize.Width, 3 * typeSize.Height, typeSize.Width, typeSize.Height));
+                letters.Add(')', new FontCharacter(')', 11 * typeSize.Width, 3 * typeSize.Height, typeSize.Width, typeSize.Height));
+                letters.Add('{', new FontCharacter('{', 12 * typeSize.Width, 3 * typeSize.Height, typeSize.Width, typeSize.Height));
+                letters.Add('}', new FontCharacter('}', 13 * typeSize.Width, 3 * typeSize.Height, typeSize.Width, typeSize.Height));
+                letters.Add('[', new FontCharacter('[', 14 * typeSize.Width, 3 * typeSize.Height, typeSize.Width, typeSize.Height));
+                letters.Add(']', new FontCharacter(']', 15 * typeSize.Width, 3 * typeSize.Height, typeSize.Width, typeSize.Height));
+
                 #endregion
                 #region Row 5 - Special Characters
                 letters.Add(' ', new FontCharacter(' ', 0, 4 * typeSize.Height, typeSize.Width, typeSize.Height));
                 letters.Add('|', new FontCharacter('|', 1 * typeSize.Width, 4 * typeSize.Height, typeSize.Width, typeSize.Height));
                 letters.Add('_', new FontCharacter('_', 2 * typeSize.Width, 4 * typeSize.Height, typeSize.Width, typeSize.Height));
-                letters.Add('-', new FontCharacter('-', 3 * typeSize.Width, 4 * typeSize.Height, typeSize.Width, typeSize.Height));
                 #endregion
             }
 
