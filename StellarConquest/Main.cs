@@ -50,7 +50,7 @@ namespace StellarConquest
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-
+        
         // Timer
         int highlightCountdown = 600;
         int lowlightCountdown = 100;
@@ -67,6 +67,11 @@ namespace StellarConquest
 
         // Font Manager (Multiple fonts in one object)
         FontManager fm;
+
+        //KeyframeManager tester
+        KeyframeList kl;
+        Keyframe curentFrame;
+
 
         Texture2D fontImage;
 
@@ -107,6 +112,12 @@ namespace StellarConquest
             // Adds a new font to the Font Manager.
             fm.AddFontsheet("MicroFont", Content.Load<Texture2D>("MicroFont.png"), 6, 10, true);
 
+            kl = new KeyframeList();
+            kl.AddKeyframe(1000, Color.Red);
+            kl.AddKeyframe(500, Color.Green);
+            kl.AddKeyframe(250, Color.Blue);
+            kl.Alive = true;
+
             // Adds a new font to the Font Manager that
             // was already instantiated.
             fm.AddFontsheet(boldFont);
@@ -135,6 +146,9 @@ namespace StellarConquest
 
             // Updates the timer for the title text highlighting.
             UpdateLogic(gameTime);
+
+            // Updates the keyframes.
+            kl.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -177,8 +191,13 @@ namespace StellarConquest
             fm.DrawText(1, "This is a test of the Font Manager using an index.".ToUpper(), new Vector2(10, 265), spriteBatch, Color.LightYellow);
 
             // Font Manager helper methods to aid in font discovery.
-            fm.FindIndex("Nothere");
+            fm.FindIndex("Not_here");
             fm.FindTag(10);
+
+            // Draw information from the KeyframeManager.
+            curentFrame = kl.Frame;
+            fm.DrawText(0, string.Concat("Frame Index, ", kl.FrameIndex, ", Curent time, ", kl.Elapsed, "ms, Alive? ", kl.Alive, " || Delay, ", curentFrame.Delay, ", Color, ", curentFrame.Tint.ToString()),
+                        new Vector2(10, 300), spriteBatch, curentFrame.Tint);
 
             spriteBatch.End();
 
