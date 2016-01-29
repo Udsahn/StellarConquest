@@ -78,8 +78,9 @@ SOFTWARE.
 //###   Font Loading            |           100%
 //###   Font Rendering          |           100%
 //###   Font XML Info           |           0%
+//###   Scaling                 |           0%
 //###
-//###   Letters Supported       |       Only Capitals
+//###   Letters Supported       |       Most Characters
 //###
 //#####################################################
 
