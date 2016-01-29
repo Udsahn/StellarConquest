@@ -68,7 +68,7 @@ namespace StellarConquest
         // Font Manager (Multiple fonts in one object)
         FontManager fm;
 
-        //KeyframeManager tester
+        //KeyframeList tester
         KeyframeList kl;
         Keyframe curentFrame;
 
@@ -116,7 +116,8 @@ namespace StellarConquest
             kl.AddKeyframe(1000, Color.Red);
             kl.AddKeyframe(500, Color.Green);
             kl.AddKeyframe(250, Color.Blue);
-            kl.Alive = true;
+            kl.Cycle = KeyframeCycle.Once;
+            kl.Start();
 
             // Adds a new font to the Font Manager that
             // was already instantiated.
@@ -194,9 +195,10 @@ namespace StellarConquest
             fm.FindIndex("Not_here");
             fm.FindTag(10);
 
-            // Draw information from the KeyframeManager.
-            curentFrame = kl.Frame;
-            fm.DrawText(0, string.Concat("Frame Index, ", kl.FrameIndex, ", Curent time, ", kl.Elapsed, "ms, Alive? ", kl.Alive, " || Delay, ", curentFrame.Delay, ", Color, ", curentFrame.Tint.ToString()),
+            // Draw information from the KeyframeList.
+            curentFrame = kl.Keyframe;
+
+            fm.DrawText(0, string.Concat("Frame Index, ", kl.KeyframeIndex, ", Curent time, ", kl.Elapsed, "ms, State, ", kl.State.ToString(), ", Cycle Option, ", kl.Cycle.ToString(), " || Delay, ", curentFrame.Delay, ", Color, ", curentFrame.Tint.ToString()),
                         new Vector2(10, 300), spriteBatch, curentFrame.Tint);
 
             spriteBatch.End();
