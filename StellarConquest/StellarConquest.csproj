@@ -38,6 +38,8 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Core\Data\CustomQueue.cs" />
+    <Compile Include="Core\Data\Buffer.cs" />
     <Compile Include="Graphics\ColorScheme.cs" />
     <Compile Include="Graphics\FontLoader\Font.cs" />
     <Compile Include="Graphics\FontLoader\FontCharacter.cs" />
