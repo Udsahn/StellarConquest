@@ -31,7 +31,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace StellarConquest.Graphics.Keyframe
+namespace StellarConquest.Graphics.Animation
 {
 
     /// <summary>

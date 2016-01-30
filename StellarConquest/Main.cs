@@ -30,12 +30,15 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+using System;
+
 using StellarConquest.Graphics;
 
 using Udsahn.Graphics;
 using Udsahn.Graphics.FontLoader;
 
-using StellarConquest.Graphics.Keyframe;
+using StellarConquest.Graphics.Animation;
+using StellarConquest.Graphics.Text;
 
 namespace StellarConquest
 {
@@ -52,6 +55,8 @@ namespace StellarConquest
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+
+        Random r = new Random();
         
         // Timer
         int highlightCountdown = 600;
@@ -76,6 +81,10 @@ namespace StellarConquest
 
         // Keyframe Manager test.
         KeyframeManager km = new KeyframeManager();
+
+        // Message test.
+        Message m;
+        MessageBox mb;
 
         Texture2D fontImage;
 
@@ -114,7 +123,9 @@ namespace StellarConquest
             microFont = new Font("Custom micro Font", Content.Load<Texture2D>("MicroFont.png"), new Vector2(6, 10), true);
 
             // Adds a new font to the Font Manager.
+            fm.AddFontsheet("DEFAULT", Content.Load<Texture2D>("MicroFont.png"), 6, 10, true);
             fm.AddFontsheet("MicroFont", Content.Load<Texture2D>("MicroFont.png"), 6, 10, true);
+
 
             kl = new KeyframeList();
             kl.AddKeyframe(1000, Color.Red);
@@ -144,6 +155,12 @@ namespace StellarConquest
             }
 
             km.StartAll();
+
+            m = new Message("This is a test.");
+            mb = new MessageBox(10);
+
+            for (int i = 1; i <= 100; i++)
+            mb.Add(new Message("Test of messageBox. || " + i + " ", "DEFAULT", r.Next(1000, 10000)), new Vector2(150, 325 + (10 * i)));
             }
 
         /// <summary>
@@ -175,6 +192,8 @@ namespace StellarConquest
 
             // Update Keyframe Manager.
             km.Update(gameTime);
+
+            mb.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -227,6 +246,9 @@ namespace StellarConquest
                         new Vector2(10, 300), spriteBatch, curentFrame.Tint);
 
             fm.DrawText(0, km[0].Keyframe.Delay + " : " + km[0].Elapsed, km[0].Keyframe.Position, spriteBatch, km[0].Keyframe.Tint);
+            fm.DrawText(m.Font, m.Text, new Vector2(10, 400), spriteBatch, Color.White);
+
+            mb.Draw(spriteBatch, microFont);
 
             spriteBatch.End();
 

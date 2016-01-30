@@ -67,7 +67,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace StellarConquest.Graphics.Keyframe
+namespace StellarConquest.Graphics.Animation
 {
     /// <summary>
     /// Object for holding keyframe timing information.
@@ -86,6 +86,17 @@ namespace StellarConquest.Graphics.Keyframe
             this.Tint = tint;
             this.Position = position;
             this.SourceRectangle = sourceRectangle;
+        }
+
+        /// <summary>
+        /// Creates a non-animating frame with a delay of 1000ms.
+        /// </summary>
+        public Keyframe()
+        {
+            this.Delay = 1000;
+            this.Tint = Color.White;
+            this.Position = new Vector2(0, 0);
+            this.SourceRectangle = new Rectangle(0, 0, 0, 0);
         }
     }
 }

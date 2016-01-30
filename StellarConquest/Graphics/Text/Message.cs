@@ -28,7 +28,7 @@ SOFTWARE.
 
 //#####################################################
 //###                                               ###
-//###     Text Message Ver. 0.001 Alpha             ###
+//###          Message Ver. 0.001 Alpha             ###
 //###                                               ###
 //#####################################################
 #region Info
@@ -43,39 +43,11 @@ SOFTWARE.
 //###   coloration. All messages are handled by the
 //###   MessageManager.
 //###
-
+//###   The Message class is used specifically for holding
+//###   the message string, font desired and lifespan.
 //###
-//###   ~~~             USAGE               ~~~
-//###
-//###   After instantiation, simply use the AddFontsheet
-//###   method to include new fontsheets.
-//###
-//###   To access these fonts afterward use the DrawText
-//###   method. Supplying either a string name or index
-//###   number to select a font.
-//###
-//###   If no font was located, the manager will flash
-//###   an error in the game window. This feature can
-//###   be disabled by changing the boolean flag 'silent'
-//###   to true.
-//###
-//###   A later feature will allow 'timed displays'
-//###   that will retain a section of text for an
-//###   amount of time.
-//###
-//###   An extra feature will also include the capability
-//###   to shift the color of text over time, and offset
-//###   its position (translate).
-//#####################################################
-
-//#####################################################
-//###
-//###   Current progress        |       Percentage
-//###
-//###   Font Manager            |       100%
-//###   Debug Flash             |       0%
-//###   Color shifting          |       0%
-//###   Timed Translation       |       0%
+//###   All actual rendering and output is handled
+//###   via the MessageBox object.
 //###
 //#####################################################
 
@@ -91,37 +63,42 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Udsahn.Graphics.FontLoader;
 
-namespace StellarConquest.Text
+namespace StellarConquest.Graphics.Text
 {
     class Message
     {
         public string Text { get; protected set; }
-        public Color Color { get; protected set; }
+        public string Font { get; protected set; }
+        
+        /// <summary>
+        /// Time displayed (in milliseconds)
+        /// </summary>
+        public int Lifespan { get; protected set; }
 
-        public bool IsAnimating { get; protected set; }
+        /// <summary>
+        /// The time elapsed (in milliseconds)
+        /// </summary>
+        public int Elapsed { get; protected set; }
 
-        List<int> timers;
-        List<Color> colors;
-        List<Vector2> positions;
+        /// <summary>
+        /// This is a flag to tell all managers to remove it.
+        /// </summary>
+        public bool IsAlive { get; protected set; }
 
-        public Message(string text, Color color)
+        public Message(string message, string fontname = "DEFAULT", int lifespan = 1000, bool start = true)
         {
-            this.Text = text;
-            this.Color = color;
+            this.Text = message;
+            this.Font = fontname;
+            this.Lifespan = lifespan;
+            this.IsAlive = start;
         }
 
-        public void AddKeyframe(int time, Color color, Vector2 relativePosition)
+        public void Update(GameTime time)
         {
-            if (timers == null)
-            {
-                timers = new List<int>();
-                colors = new List<Color>();
-                positions = new List<Vector2>();
-            }
-
-            int keyframe = MathHelper.Clamp(time, 1, 60000);
-
-            timers.Add(MathHelper.Clamp(time, 1, 60000));
+            if (Elapsed >= Lifespan)
+                this.IsAlive = false;
+            else
+                this.Elapsed += time.ElapsedGameTime.Milliseconds;
         }
     }
 }

@@ -34,7 +34,7 @@ using System.Text;
 
 using Microsoft.Xna.Framework;
 
-namespace StellarConquest.Graphics.Keyframe
+namespace StellarConquest.Graphics.Animation
 {
     class KeyframeManager
     {
@@ -53,6 +53,11 @@ namespace StellarConquest.Graphics.Keyframe
 
         public KeyframeList this[string tag] { get { return Find(tag); } }
         public KeyframeList this[int index] { get { return Find(Find(index)); } }
+
+        /// <summary>
+        /// The number of current keyframes.
+        /// </summary>
+        public int Count { get { return keyframeSets.Count; } }
 
         public KeyframeManager()
         {
