@@ -42,8 +42,10 @@
     <Compile Include="Graphics\FontLoader\Font.cs" />
     <Compile Include="Graphics\FontLoader\FontCharacter.cs" />
     <Compile Include="Graphics\FontLoader\FontManager.cs" />
-    <Compile Include="Graphics\Keyframe.cs" />
-    <Compile Include="Graphics\KeyframeList.cs" />
+    <Compile Include="Graphics\Keyframe\Keyframe.cs" />
+    <Compile Include="Graphics\Keyframe\KeyframeBuilder.cs" />
+    <Compile Include="Graphics\Keyframe\KeyframeList.cs" />
+    <Compile Include="Graphics\Keyframe\KeyframeManager.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

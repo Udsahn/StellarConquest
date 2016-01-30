@@ -67,7 +67,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace StellarConquest.Graphics
+namespace StellarConquest.Graphics.Keyframe
 {
     /// <summary>
     /// Object for holding keyframe timing information.

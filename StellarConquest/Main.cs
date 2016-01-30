@@ -35,6 +35,8 @@ using StellarConquest.Graphics;
 using Udsahn.Graphics;
 using Udsahn.Graphics.FontLoader;
 
+using StellarConquest.Graphics.Keyframe;
+
 namespace StellarConquest
 {
     public static class ColorScheme
@@ -72,6 +74,8 @@ namespace StellarConquest
         KeyframeList kl;
         Keyframe curentFrame;
 
+        // Keyframe Manager test.
+        KeyframeManager km = new KeyframeManager();
 
         Texture2D fontImage;
 
@@ -124,7 +128,23 @@ namespace StellarConquest
             // Adds a new font to the Font Manager that
             // was already instantiated.
             fm.AddFontsheet(boldFont);
-        }
+
+            // Uses custom Builder.
+            using (KeyframeBuilder kb = new KeyframeBuilder())
+            {
+                kb.AddKeyframe(new Keyframe(100, Color.Red, new Vector2(10, 350), new Rectangle(0, 0, 0, 0)));
+                kb.AddKeyframe(new Keyframe(100, Color.Purple, new Vector2(10, 351), new Rectangle(0, 0, 0, 0)));
+                kb.AddKeyframe(new Keyframe(100, Color.Blue, new Vector2(10, 352), new Rectangle(0, 0, 0, 0)));
+                kb.AddKeyframe(new Keyframe(100, Color.Green, new Vector2(10, 353), new Rectangle(0, 0, 0, 0)));
+                kb.AddKeyframe(new Keyframe(100, Color.Yellow, new Vector2(10, 352), new Rectangle(0, 0, 0, 0)));
+                kb.AddKeyframe(new Keyframe(100, Color.Orange, new Vector2(10, 351), new Rectangle(0, 0, 0, 0)));
+
+                // Adds one keyframe to the manager.
+                km.Add(kb.Result, "Test");
+            }
+
+            km.StartAll();
+            }
 
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
@@ -152,6 +172,9 @@ namespace StellarConquest
 
             // Updates the keyframes.
             kl.Update(gameTime);
+
+            // Update Keyframe Manager.
+            km.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -202,6 +225,8 @@ namespace StellarConquest
 
             fm.DrawText(0, string.Concat("Frame Index: ", kl.KeyframeIndex, ", Curent time: ", kl.Elapsed, "ms, State: ", kl.State.ToString(), ", Cycle Option: ", kl.Cycle.ToString(), " || Delay -- ", curentFrame.Delay, ", Color ~~ ", curentFrame.Tint.ToString()),
                         new Vector2(10, 300), spriteBatch, curentFrame.Tint);
+
+            fm.DrawText(0, km[0].Keyframe.Delay + " : " + km[0].Elapsed, km[0].Keyframe.Position, spriteBatch, km[0].Keyframe.Tint);
 
             spriteBatch.End();
 

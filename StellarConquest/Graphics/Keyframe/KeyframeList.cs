@@ -73,7 +73,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace StellarConquest.Graphics
+namespace StellarConquest.Graphics.Keyframe
 {
     enum KeyframeState { Alive, Frozen };
     enum KeyframeCycle { Repeat, Once, Reverse };
@@ -186,6 +186,13 @@ namespace StellarConquest.Graphics
         {
                 Elapsed = 0;
                 KeyframeIndex = 0;
+        }
+
+        public List<Keyframe> GetKeyframes()
+        {
+            List<Keyframe> value = this.keyframes;
+
+            return value;
         }
 
         #region AddMethods
