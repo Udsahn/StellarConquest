@@ -51,6 +51,45 @@ SOFTWARE.
 
 #endregion
 
+#region Logic Scenario Diagram
+
+/*
+    ## Logic scenarios ##
+
+    Can always assume that the newest index will be in front of the oldest
+    index.
+
+    New Queue________ 
+    -|-|-|-|-|-|-|-|  <- Maximum capacity
+    N
+    O
+
+    First addition [OverwriteLogic Method]
+    =|-|-|-|-|-|-|-|  <- Maximum capacity
+    O N
+
+    Next insert index moves to front (0) [QueueLogic Method]
+    =|=|=|=|=|=|=|=|  <- Maximum capacity
+    O               N
+    N<--------------|
+
+    Oldest index moves to front (0) [QueueLogic Method]
+    =|=|=|=|=|=|=|=|  <- Maximum capacity
+    N               
+    ----------------O
+    O<--------------|
+
+
+    Next insert overwrote oldest index. [OverwriteLogic Method]
+    Queue length remains unchanged, oldest index steps forward.
+    =|=|=|=|=|=|=|=|  <- Maximum capacity
+    --------->N -----
+    ------->O
+            |>O
+*/
+
+#endregion
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,10 +103,22 @@ namespace StellarConquest.Core.Data
     /// <typeparam name="T">Type to queue.</typeparam>
     class CustomQueue<T>
     {
+        /// <summary>
+        /// Queue container.
+        /// </summary>
         protected T[] buckets;
 
-        int _nextIndex;
-        int _oldestIndex;
+        /// <summary>
+        /// Next index to insert at.
+        /// </summary>
+        protected int _nextIndex;
+
+        /// <summary>
+        /// Next index to extract from.
+        /// </summary>
+        protected int _oldestIndex;
+
+        protected bool _nextIndexLooped = false;
 
         /// <summary>
         /// Length of the queue.
@@ -127,7 +178,15 @@ namespace StellarConquest.Core.Data
             if (_nextIndex >= buckets.Length)
                 QueueLogic();
 
-            buckets[_nextIndex] = item;
+            // Overwrite if at full capacity.
+            if (Length == Capacity)
+            {
+                OverwriteLogic(item);
+                
+                return;
+            }
+            else
+                buckets[_nextIndex] = item;
 
             // Move the index to the next index.
             _nextIndex = Step(_nextIndex);
@@ -186,14 +245,14 @@ namespace StellarConquest.Core.Data
 
         #endregion
 
-        #region ####    PRIVATE METHODS     ####
+        #region ####    NON-PUBLIC METHODS     ####
 
         /// <summary>
         /// Steps an index forward in the queue.
         /// </summary>
         /// <param name="indexToStep">Index to use as reference.</param>
-        /// <returns>Returns result.</returns>
-        private int Step(int indexToStep)
+        /// <returns>Returns resulting stepped index value.</returns>
+        protected int Step(int indexToStep)
         {
             int value = 0;
 
@@ -203,10 +262,56 @@ namespace StellarConquest.Core.Data
             return value;
         }
 
+        /*
+            ## Logic scenarios ##
+
+            Can always assume that the newest index will be in front of the oldest
+            index.
+
+            New Queue________ 
+            -|-|-|-|-|-|-|-|  <- Maximum capacity
+            N
+            O
+
+            First addition [OverwriteLogic Method]
+            =|-|-|-|-|-|-|-|  <- Maximum capacity
+            O N
+
+            Next insert index moves to front (0) [QueueLogic Method]
+            =|=|=|=|=|=|=|=|  <- Maximum capacity
+            O               N
+            N<--------------|
+            
+            Oldest index moves to front (0) [QueueLogic Method]
+            =|=|=|=|=|=|=|=|  <- Maximum capacity
+            N               
+            ----------------O
+            O<--------------|
+            
+
+            Next insert overwrote oldest index. [OverwriteLogic Method]
+            Queue length remains unchanged, oldest index steps forward.
+            =|=|=|=|=|=|=|=|  <- Maximum capacity
+            --------->N -----
+            ------->O
+                    |>O
+        */
+
+        /// <summary>
+        /// Overwrites oldest entry if queue is full.
+        /// </summary>
+        /// <param name="item">Item to overwrite with.</param>
+        protected virtual void OverwriteLogic(T item)
+        {
+            _oldestIndex = Step(_oldestIndex);
+
+            buckets[_nextIndex] = item;
+        }
+
         /// <summary>
         /// Ensures that the indices selected never exceed the length of the array.
         /// </summary>
-        private void QueueLogic()
+        protected virtual void QueueLogic()
         {
             if (_oldestIndex > _nextIndex)
             {
