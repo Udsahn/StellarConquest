@@ -87,7 +87,7 @@ namespace StellarConquest.Core.Data
     /// Generic buffer for storing and retrieving items in a queue.
     /// </summary>
     /// <typeparam name="T">Type of object to buffer.</typeparam>
-    class Buffer<T> : CustomQueue<T>
+    class Buffer<T> : CircularQueue<T>
     {
         /// <summary>
         /// True to overwrite oldest entries.

@@ -38,7 +38,8 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Core\Data\CustomQueue.cs" />
+    <Compile Include="Core\Data\CircularList.cs" />
+    <Compile Include="Core\Data\CircularQueue.cs" />
     <Compile Include="Core\Data\Buffer.cs" />
     <Compile Include="Graphics\ColorScheme.cs" />
     <Compile Include="Graphics\FontLoader\Font.cs" />
@@ -48,7 +49,6 @@
     <Compile Include="Graphics\Animation\KeyframeBuilder.cs" />
     <Compile Include="Graphics\Animation\KeyframeList.cs" />
     <Compile Include="Graphics\Animation\KeyframeManager.cs" />
-    <Compile Include="Graphics\Text\MessageBox.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

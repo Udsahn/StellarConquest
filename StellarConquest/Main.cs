@@ -39,6 +39,9 @@ using Udsahn.Graphics.FontLoader;
 
 using StellarConquest.Graphics.Animation;
 using StellarConquest.Graphics.Text;
+using StellarConquest.Core.Data;
+
+using System.Collections.Generic;
 
 namespace StellarConquest
 {
@@ -84,7 +87,6 @@ namespace StellarConquest
 
         // Message test.
         Message m;
-        MessageBox mb;
 
         Texture2D fontImage;
 
@@ -157,11 +159,7 @@ namespace StellarConquest
             km.StartAll();
 
             m = new Message("This is a test.");
-            mb = new MessageBox(10);
-
-            for (int i = 1; i <= 100; i++)
-            mb.Add(new Message("Test of messageBox. || " + i + " ", "DEFAULT", r.Next(1000, 10000)), new Vector2(150, 325 + (10 * i)));
-            }
+        }
 
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
@@ -192,8 +190,6 @@ namespace StellarConquest
 
             // Update Keyframe Manager.
             km.Update(gameTime);
-
-            mb.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -248,8 +244,6 @@ namespace StellarConquest
             fm.DrawText(0, km[0].Keyframe.Delay + " : " + km[0].Elapsed, km[0].Keyframe.Position, spriteBatch, km[0].Keyframe.Tint);
             fm.DrawText(m.Font, m.Text, new Vector2(10, 400), spriteBatch, Color.White);
 
-            mb.Draw(spriteBatch, microFont);
-
             spriteBatch.End();
 
             base.Draw(gameTime);
@@ -260,7 +254,9 @@ namespace StellarConquest
             timer += gameTime.ElapsedGameTime.Milliseconds;
 
             if (timer > highlightCountdown + lowlightCountdown)
+            {
                 timer = 0;
+            }
         }
     }
 }

@@ -101,7 +101,7 @@ namespace StellarConquest.Core.Data
     /// A non-resizing generic queue. Has a maximum capacity.
     /// </summary>
     /// <typeparam name="T">Type to queue.</typeparam>
-    class CustomQueue<T>
+    class CircularQueue<T>
     {
         /// <summary>
         /// Queue container.
@@ -135,7 +135,7 @@ namespace StellarConquest.Core.Data
         /// <summary>
         /// Instantiates the queue with a default maximum capacity of 25 blocks.
         /// </summary>
-        public CustomQueue()
+        public CircularQueue()
         {
             Initialize(25);
         }
@@ -144,7 +144,7 @@ namespace StellarConquest.Core.Data
         /// Instantiates the queue with a custom maximum capacity.
         /// </summary>
         /// <param name="maximumCapacity"></param>
-        public CustomQueue(int maximumCapacity)
+        public CircularQueue(int maximumCapacity)
         {
             Initialize(maximumCapacity);
         }
